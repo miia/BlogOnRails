@@ -1,5 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, except: [:index, :show]  #Added - we want AUTHENTICATION to take place before all ection, except the "safe" (i.e., read-only) ones
+                                                        #NOTE: of course, the authenticate method is not built-in => you'll have to implement it - see bottom of file.
+
 
   # GET /posts
   # GET /posts.json
@@ -71,4 +74,12 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(:title, :body)
     end
+
+    # define the method implementing AUTHENTICATION:
+    def authenticate
+      authenticate_or_request_with_http_basic do |name, password|
+        name == "admin" && password == "secret"
+      end
+    end
+
 end

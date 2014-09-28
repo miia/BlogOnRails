@@ -21,14 +21,17 @@ class CommentsController < ApplicationController
   def edit
   end
 
+
+  #This method has been modified in order to allow inserting new comments to a Post directly, using the form in the Post's view:
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(comment_params)
+    @post = Post.find(params[:post_id])   #retrieve the specific post that we want to add a comment to; remember the params[:post_id] hash variable has already been set before getting into this Controller, as part of the request->route->dispatch cycle.
+    @comment = @post.comments.create(comment_params) #so the specific comment will be created UNDER the retrieved post (this is possible because of the ASSOCIATIONS we have defined before: a post has_many comments, therefore in our webapp's Model a list of Comment objects (or some other container) is part of each Post object)
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        format.html { redirect_to @post, notice: 'Comment was successfully created.' }  
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }

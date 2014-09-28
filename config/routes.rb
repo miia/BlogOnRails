@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :comments
+  #resources :comments  #not anymore: the only route that allows us to reach Comments should be through the associated Post (see below).
 
   resources :posts do
     resources :comments
