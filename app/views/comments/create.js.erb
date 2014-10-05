@@ -1,0 +1,5 @@
+var new_comment = $("<%= escape_javascript(render(:partial => @comment))%>").hide();  <%#obtain the new comment by RENDERING THE PARIAL TEMPLATE that you created before with the appropriate name ("_comment.html.erb"); keep it hidden for now.%>
+<%#the "escape" method is there to escape quotes in the rendered code, to ensure it's parsed/interpreted correctly.%>
+$('#comments').prepend(new_comment);   <%#take the array of all comments, and prepend this new comment%>
+$('#comment_<%= @comment.id %>').fadeIn('slow'); <%#graphically, this JS line will "fade" the newly inserted comment into the page%>
+$('#new_comment')[0].reset();  <%#finally, reset the comments form for later use.%>

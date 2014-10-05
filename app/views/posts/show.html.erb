@@ -14,19 +14,12 @@
 <%# Adding code to show all comments below a particulat Post: %>
 <h2>Comments</h2>
 <div id=comments>
-  <% @post.comments.each do |comment| %>
-    <%= div_for comment do %>
-    <p>
-      <strong>Posted <%= time_ago_in_words(comment.created_at) %></strong><br />
-      <%= h(comment.body) %>
-    </p>
-    <% end %>
-  <% end %>
+    <%= render :partial => @post.comments.reverse %>
 </div>
 
 
-<%#Adding the "New comment" form at the bottom of the Posts' view - NOTE: will need to make a small update to the Posts' controller as well. %>
-<%= form_for([@post, Comment.new]) do |f| %>
+<%#Adding the "New comment" form at the bottom of the Posts' view - NOTE: will need to make a small update to the Posts' controller as well.%>
+<%= form_for([@post, Comment.new], remote: true) do |f| %>  <%#ALSO adding "remote: true" in order to use asynchronous HTTP requests through AJAX (see the controller and the partial template _comment.html.erb as well)%>
   <p>
     <%= f.label :body, "New Comment" %><br />
     <%= f.text_area :body %>

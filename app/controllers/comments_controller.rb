@@ -33,6 +33,8 @@ class CommentsController < ApplicationController
       if @comment.save
         format.html { redirect_to @post, notice: 'Comment was successfully created.' }  
         format.json { render :show, status: :created, location: @comment }
+        format.js  #ADDED in order to make the server return some JS code; this will come into play when the server receives an Asynchronous HTTP Request (using AJAX), which asks for JS code in return.
+                   #WARNING: this line above ASSUMES there's a file create.js.erb which should be executed when this request is triggered. need to create that file! (see create.js.erb)
       else
         format.html { render :new }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
